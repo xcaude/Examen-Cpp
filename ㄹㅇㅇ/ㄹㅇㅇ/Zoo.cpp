@@ -123,6 +123,7 @@ double Zoo::averageAgeForType(const string& animalType) {
 
 
 void Zoo::predictTypeWithKNN(Animal* newAnimal, int k, const string& infoType) {
+    vector<int> neighbors;
     if (infoType == "numerical") {
         // Prepare trainData (weights and heights of existing animals)
         vector<pair<double, double>> trainData;
@@ -148,7 +149,7 @@ void Zoo::predictTypeWithKNN(Animal* newAnimal, int k, const string& infoType) {
 
         // Use KNNDouble for numerical information
         KNNDouble knnDouble(k);
-        vector<int> neighbors = knnDouble.findNearestNeighbours(trainData, target);
+        neighbors = knnDouble.findNearestNeighbours(trainData, target);
         
         // Now, 'neighbors' contains the similarity values and the corresponding weights and heights of the k nearest neighbors
         // You can use this information for further processing
@@ -164,13 +165,16 @@ void Zoo::predictTypeWithKNN(Animal* newAnimal, int k, const string& infoType) {
 
         // Use KNNString for categorical information
         KNNString knnString(k);
-        vector<int> neighbors = knnString.findNearestNeighbours(trainData, target);
+        neighbors = knnString.findNearestNeighbours(trainData, target);
 
         // Now, 'neighbors' contains the similarity values and the corresponding categorical features of the k nearest neighbors
         // You can use this information for further processing
     } else {
         // Handle unsupported infoType
         cerr << "Unsupported information type: " << infoType << endl;
+    }
+    for (size_t t=0;t<neighbors.size();t++){
+        cout << neighbors[t]<< endl;
     }
 
 }
